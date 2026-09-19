@@ -1,0 +1,6 @@
+{
+  "name": "StudyForge AI",
+  "description": "AI-native learning operating system turning dense textbooks, papers, and lectures into structured active-recall pipelines, generative flashcards, and retention loops.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
