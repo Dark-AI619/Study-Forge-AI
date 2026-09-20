@@ -13,7 +13,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onStartFree, onWatchDe
       <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#262a33]/80 border border-white/[0.08] backdrop-blur-md shadow-sm mb-8 transition-all hover:scale-105 hover:border-[#4cd7f6]/40 cursor-default">
         <span className="w-2 h-2 rounded-full bg-[#4cd7f6] shadow-[0_0_10px_#4cd7f6] animate-pulse"></span>
         <span className="font-mono text-xs font-semibold text-[#4cd7f6] tracking-wide">
-          ⚡ Introducing StudyForge 3.0 • Powered by Multi-Modal Reasoning
+          YOUR PERSONAL AI LEARNING WORKSPACE
         </span>
       </div>
 
@@ -27,7 +27,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onStartFree, onWatchDe
 
       {/* Subtitle */}
       <p className="font-sans text-base sm:text-lg text-[#bcc9cd] max-w-3xl mb-10 leading-relaxed font-normal">
-        The AI-native learning operating system that ingests textbook PDFs, research papers, and lectures into structured active-recall pipelines, generative flashcards, and adaptive retention loops.
+        Turn your PDFs and notes into a clear learning plan, focused daily lessons, and meaningful practice. Build understanding at your own pace.
       </p>
 
       {/* Dual CTAs */}
@@ -47,7 +47,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onStartFree, onWatchDe
           id="hero-watch-demo-btn"
         >
           <span className="material-symbols-outlined text-[#4cd7f6] text-[22px]">play_circle</span>
-          <span>Watch 2-Min Demo</span>
+          <span>Explore the learning flow</span>
         </button>
       </div>
 
@@ -73,10 +73,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onStartFree, onWatchDe
             </div>
             <div className="flex flex-col text-left">
               <span className="font-mono text-[10px] uppercase text-[#bcc9cd] tracking-wider">
-                Synthesis Engine
+                YOUR MATERIAL
               </span>
               <span className="font-mono text-xs font-semibold text-[#4cd7f6]">
-                Active Neural: 98.4%
+                Connected to your course
               </span>
             </div>
           </div>
@@ -88,10 +88,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onStartFree, onWatchDe
             </div>
             <div className="flex flex-col text-left">
               <span className="font-mono text-[10px] uppercase text-[#bcc9cd] tracking-wider">
-                Cognitive Load
+                YOUR STUDY PLAN
               </span>
               <span className="font-mono text-xs font-semibold text-[#dfe2ee]">
-                Balanced (Optimal)
+                Built around your time
               </span>
             </div>
           </div>
@@ -106,7 +106,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onStartFree, onWatchDe
                 Spaced Repetition
               </span>
               <span className="font-mono text-xs font-semibold text-[#dfe2ee]">
-                Next Review: in 3h 14m
+                Review what needs practice
               </span>
             </div>
           </div>
@@ -115,7 +115,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onStartFree, onWatchDe
           <div className="absolute bottom-8 right-8 hidden lg:flex items-center gap-3 px-4 py-2 rounded-xl bg-[#0a0e16]/90 backdrop-blur-xl border border-white/[0.08] shadow-lg">
             <span className="w-2 h-2 rounded-full bg-[#4cd7f6] animate-ping"></span>
             <span className="font-mono text-xs text-[#bcc9cd]">
-              Realtime Multi-Modal Vector Stream
+              Learn · Practice · Reflect
             </span>
           </div>
         </div>
@@ -125,37 +125,37 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onStartFree, onWatchDe
       <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
         <div className="flex flex-col items-center p-6 rounded-2xl bg-[#181c24] border border-white/[0.06] shadow-sm hover:border-[#4cd7f6]/30 transition-all">
           <span className="font-sans text-4xl sm:text-5xl font-extrabold text-[#4cd7f6] tracking-tight">
-            94%
+            Plan
           </span>
           <span className="font-sans text-lg text-[#dfe2ee] font-semibold mt-1">
-            Retention Boost
+            A clear direction
           </span>
           <span className="font-sans text-xs text-[#bcc9cd] mt-1 text-center">
-            Measured against traditional passive reading over 60 days
+            Editable courses, modules, and daily learning blocks
           </span>
         </div>
 
         <div className="flex flex-col items-center p-6 rounded-2xl bg-[#181c24] border border-white/[0.06] shadow-sm hover:border-[#d0bcff]/30 transition-all">
           <span className="font-sans text-4xl sm:text-5xl font-extrabold text-[#d0bcff] tracking-tight">
-            4.2x
+            Learn
           </span>
           <span className="font-sans text-lg text-[#dfe2ee] font-semibold mt-1">
-            Faster Comprehension
+            Your material, connected
           </span>
           <span className="font-sans text-xs text-[#bcc9cd] mt-1 text-center">
-            Via semantic chunking &amp; interactive Socratic dissection
+            Source-aware explanations, examples, and exercises
           </span>
         </div>
 
         <div className="flex flex-col items-center p-6 rounded-2xl bg-[#181c24] border border-white/[0.06] shadow-sm hover:border-[#7bd0ff]/30 transition-all">
           <span className="font-sans text-4xl sm:text-5xl font-extrabold text-[#7bd0ff] tracking-tight">
-            120k+
+            Grow
           </span>
           <span className="font-sans text-lg text-[#dfe2ee] font-semibold mt-1">
-            Active Learners
+            Progress you can see
           </span>
           <span className="font-sans text-xs text-[#bcc9cd] mt-1 text-center">
-            Engineers, med students, PhD candidates &amp; researchers
+            Quizzes, targeted revision, and knowledge mastery
           </span>
         </div>
       </div>

@@ -17,13 +17,13 @@ export const PipelineSection: React.FC = () => {
           <div className="flex flex-col max-w-2xl">
             <div className="inline-flex items-center gap-2 text-[#4cd7f6] font-mono text-xs uppercase tracking-wider mb-3 font-semibold">
               <span className="material-symbols-outlined text-[16px]">account_tree</span>
-              <span>Architectural Flow</span>
+              <span>THE LEARNING FLOW</span>
             </div>
             <h2 className="font-sans text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#dfe2ee] tracking-tight">
-              The 6-Phase Synapse Pipeline
+              From curiosity to understanding
             </h2>
             <p className="font-sans text-base text-[#bcc9cd] mt-3 leading-relaxed">
-              From raw, chaotic academic source matter into permanent, interconnected neural mastery. Fully automated, adaptive, and verifiable.
+              A connected learning loop, from your first document to the ideas you can confidently explain.
             </p>
           </div>
 
@@ -32,7 +32,7 @@ export const PipelineSection: React.FC = () => {
               Continuous Cycle
             </span>
             <span className="font-mono text-xs px-3 py-1.5 rounded-full bg-[#4cd7f6]/10 text-[#4cd7f6] font-semibold border border-[#4cd7f6]/30">
-              Zero Hallucinations
+              Source-aware learning
             </span>
           </div>
         </div>

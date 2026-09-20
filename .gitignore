@@ -6,3 +6,12 @@ coverage/
 *.log
 .env*
 !.env.example
+backend/.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+data/
+tmp/
+*.sqlite*
+*.faiss
+encryption.key

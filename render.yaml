@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: studyforge
+    runtime: docker
+    plan: standard
+    numInstances: 1
+    healthCheckPath: /api/health
+    autoDeployTrigger: "off"
+    disk:
+      name: studyforge-data
+      mountPath: /var/data
+      sizeGB: 10
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: STUDYFORGE_DATA_DIR
+        value: /var/data/studyforge
+      - key: ALLOWED_ORIGINS
+        sync: false
+      - key: ENCRYPTION_KEY
+        sync: false
+      - key: REGISTRATION_INVITE_CODE
+        sync: false

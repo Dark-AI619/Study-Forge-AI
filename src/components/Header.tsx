@@ -6,14 +6,14 @@ interface HeaderProps {
   activeScreen: ActiveScreen;
   setActiveScreen: (screen: ActiveScreen) => void;
   onOpenSignIn: () => void;
-  onOpenPricing: () => void;
+  onOpenAISetup: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   activeScreen,
   setActiveScreen,
   onOpenSignIn,
-  onOpenPricing
+  onOpenAISetup
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -96,7 +96,7 @@ export const Header: React.FC<HeaderProps> = ({
           >
             <span>AI Workspace</span>
             <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-[#06b6d4]/15 text-[#4cd7f6] border border-[#06b6d4]/30">
-              Live
+              Study
             </span>
           </button>
           <button
@@ -122,7 +122,7 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             onClick={(e) => {
               e.preventDefault();
-              onOpenPricing();
+              onOpenAISetup();
             }}
             className={`text-sm font-medium transition-colors cursor-pointer ${
               activeScreen === 'pricing'
@@ -130,7 +130,7 @@ export const Header: React.FC<HeaderProps> = ({
                 : 'text-[#bcc9cd] hover:text-[#dfe2ee]'
             }`}
           >
-            Pricing
+            AI Setup
           </button>
         </nav>
 
@@ -185,7 +185,7 @@ export const Header: React.FC<HeaderProps> = ({
             onClick={(e) => handleNavClick('all', e)}
             className="text-left py-2 px-3 rounded-lg text-sm text-[#bcc9cd] hover:text-[#dfe2ee] hover:bg-[#262a33]"
           >
-            Overview (All Screens)
+            Overview
           </button>
           <button
             onClick={(e) => handleNavClick('pipeline', e)}
@@ -197,9 +197,9 @@ export const Header: React.FC<HeaderProps> = ({
             onClick={(e) => handleNavClick('ai-workspace', e)}
             className="text-left py-2 px-3 rounded-lg text-sm text-[#4cd7f6] hover:bg-[#262a33] flex items-center justify-between"
           >
-            <span>AI Workspace Cockpit</span>
+            <span>Study AI</span>
             <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-[#06b6d4]/20 text-[#4cd7f6]">
-              Live
+              Study
             </span>
           </button>
           <button
@@ -217,11 +217,11 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             onClick={() => {
               setMobileMenuOpen(false);
-              onOpenPricing();
+              onOpenAISetup();
             }}
             className="text-left py-2 px-3 rounded-lg text-sm text-[#bcc9cd] hover:text-[#dfe2ee] hover:bg-[#262a33]"
           >
-            Pricing
+            AI Setup
           </button>
           <button
             onClick={() => {

@@ -1,0 +1,35 @@
+name: Verify StudyForge
+on:
+  pull_request:
+  push:
+    branches: [main, codex/studyforge-platform]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run lint && npm run build
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: backend/requirements.txt
+      - run: |
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install -r backend/requirements.txt
+      - uses: actions/cache@v4
+        with:
+          path: data/models
+          key: minilm-l6-v2-${{ runner.os }}-v1
+      - run: python backend/setup_model.py
+      - run: python -m pytest backend/tests -q
+      - name: Build full-stack deployment image
+        run: docker build -t studyforge:verify .

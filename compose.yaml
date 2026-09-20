@@ -1,0 +1,20 @@
+services:
+  studyforge:
+    build: .
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      ENVIRONMENT: development
+      ALLOWED_ORIGINS: http://localhost:8000,http://127.0.0.1:8000
+      STUDYFORGE_DATA_DIR: /var/data/studyforge
+    volumes:
+      - studyforge-data:/var/data/studyforge
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health', timeout=5)"]
+      interval: 30s
+      timeout: 10s
+      start_period: 30s
+      retries: 3
+volumes:
+  studyforge-data:

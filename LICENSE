@@ -1,0 +1,64 @@
+STUDYFORGE PLATFORM — PROPRIETARY LICENSE AND COPYRIGHT NOTICE
+
+Copyright © 2026 Hannan Malik (韩文昊). All rights reserved.
+
+1. Ownership and scope
+
+The StudyForge Platform source code and original project materials owned by
+Hannan Malik (韩文昊) (collectively, the "Proprietary Materials") are proprietary.
+All rights, title, and interest in those Proprietary Materials are reserved
+by Hannan Malik (韩文昊). This notice is not an open-source license.
+
+2. Limited inspection; no other license
+
+Users may inspect the publicly accessible Proprietary Materials solely for
+evaluation and reference purposes. This limited permission to inspect does
+not authorize incorporating the Proprietary Materials into another project,
+operating the software, or otherwise exploiting them.
+
+Public visibility of this repository does not grant permission to use, copy,
+modify, reproduce, redistribute, sublicense, sell, commercially exploit, or
+create derivative works from the Proprietary Materials. Except for the limited
+inspection permission expressly stated above, no rights or licenses are
+granted, whether expressly, by implication, by estoppel, or otherwise, without
+the explicit prior written permission of Hannan Malik (韩文昊).
+
+Nothing in this notice overrides applicable hosting-platform terms or rights
+that cannot lawfully be restricted under applicable law. Any rights arising
+from such terms or law remain limited to their applicable scope and do not
+constitute a general license to reuse the Proprietary Materials.
+
+3. Third-party components and generated materials
+
+Third-party libraries, frameworks, models, assets, fonts, dependencies, and
+other third-party components remain governed by their respective licenses,
+terms, and copyright notices. They are not relicensed under this proprietary
+notice. All required third-party license and attribution notices remain in
+effect and must be preserved as their respective terms require.
+
+This notice makes no claim of copyright ownership over third-party components
+or over generated assets or other materials in which Hannan Malik (韩文昊)
+does not own the relevant rights. Their inclusion in this repository does not
+transfer ownership or expand the rights available under their applicable
+licenses or terms. Where this notice conflicts with a third-party license,
+that third-party license governs the relevant third-party component.
+
+4. Disclaimer of warranties
+
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE PROPRIETARY MATERIALS
+ARE PROVIDED "AS IS" AND "AS AVAILABLE", WITHOUT WARRANTY OF ANY KIND, EXPRESS,
+IMPLIED, OR STATUTORY, INCLUDING WARRANTIES OF MERCHANTABILITY, FITNESS FOR
+A PARTICULAR PURPOSE, TITLE, AND NON-INFRINGEMENT. NO WARRANTY IS MADE THAT
+THE SOFTWARE WILL BE UNINTERRUPTED, ERROR-FREE, SECURE, ACCURATE, OR SUITABLE
+FOR ANY PARTICULAR USE.
+
+5. Limitation of liability
+
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, HANNAN MALIK (韩文昊) SHALL
+NOT BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH
+THE PROPRIETARY MATERIALS OR THEIR ACCESS OR USE, INCLUDING DIRECT, INDIRECT,
+INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES, LOSS OF PROFITS,
+LOSS OF DATA, OR BUSINESS INTERRUPTION, EVEN IF ADVISED OF THE POSSIBILITY
+OF SUCH DAMAGES. NOTHING IN THIS NOTICE EXCLUDES LIABILITY THAT CANNOT
+LAWFULLY BE EXCLUDED OR LIMITED.
