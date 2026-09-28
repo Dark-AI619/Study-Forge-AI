@@ -69,7 +69,7 @@ def session(user_id,response):
 def settings(user_id):
     item = db.one('SELECT * FROM settings WHERE user_id=?',(user_id,))
     item['api_key_configured'] = bool(item.pop('api_key',None))
-    item['research_available'] = False
+    item['research_available'] = True
     return item
 
 def save_settings(user_id,data):

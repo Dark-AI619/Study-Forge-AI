@@ -4,8 +4,9 @@ StudyForge connects a learning goal and your own material to an editable course,
 study timetable, lessons, quizzes, revision, tasks, and a searchable knowledge library.
 The existing React landing page and Stitch visual direction are preserved.
 
-**Status:** functional local release candidate. Production build and local verification
-are complete; a public deployment and live AI-provider verification are pending.
+**Status:** deployed on Railway at https://study-forge-ai-production.up.railway.app/.
+The v2 upgrade adds per-user preferences, public-reference research, and a persistent
+assistant with confirmable typed actions. See docs/UPGRADE_V2.md for verification and limits.
 Read the [specification audit](docs/SPECIFICATION_AUDIT.md) and
 [verification record](docs/VERIFICATION.md) for the exact scope and limitations.
 
@@ -27,7 +28,9 @@ Read the [specification audit](docs/SPECIFICATION_AUDIT.md) and
 Without an AI key, course/task management, source reading/search, detected-heading
 curriculum import, scheduling, and curriculum PDFs remain usable. These fallbacks are
 labeled clearly. AI teaching, generated quizzes/grading, chat actions and composed
-study guides require a working provider key. Research Mode is explicitly unavailable.
+study guides require a working provider key. Research Mode retrieves Wikipedia references
+without a key; synthesis uses the same configured AI provider. Saved research is excluded
+from default Strict Course retrieval and can be selected explicitly.
 
 ## Architecture
 

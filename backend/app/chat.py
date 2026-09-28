@@ -29,7 +29,11 @@ def respond(session,course,user_id,data):
     for docid in data.document_ids:db.execute('INSERT OR IGNORE INTO chat_attachments VALUES(?,?)',(session['id'],docid))
     result=None;action_result=None
     try:
-        if data.mode=='research':raise HTTPException(409,'External Research Mode is not configured. Use Strict Course Mode with your uploaded material.')
+        if data.mode=='research':
+            from .research import answer as research_answer
+            result=research_answer(user_id,data.message,course['id'],data.document_ids)
+            db.execute('INSERT INTO chat_messages VALUES(?,?,?,?,?,?)',(db.uid(),session['id'],'assistant',result['answer'],db.dump(result['sources']),db.now()))
+            return result|{'action':None}
         provider=ai.provider_for(user_id,required=False)
         plan=action_plan(data.message,provider,course) if provider else {'action':'answer'}
         action=plan.get('action','answer')

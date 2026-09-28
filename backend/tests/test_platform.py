@@ -29,7 +29,7 @@ def make_pdf():
 
 def test_database_idempotent(client,course):
     db.init();assert client.get('/api/courses').json()[0]['id']==course['id']
-    assert db.one('PRAGMA user_version')['user_version']==2
+    assert db.one('PRAGMA user_version')['user_version']==3
 
 def test_curriculum_edit_preserves_ids_and_completion(client,course):
     lid=save_plan(client,course['id']);db.execute('UPDATE lessons SET completed=1 WHERE id=?',(lid,))

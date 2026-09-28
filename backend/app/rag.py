@@ -92,6 +92,9 @@ def rebuild(course_id):
         (target/'metadata.tmp').replace(target/'metadata.json')
 
 def ingest(course_id,filename,raw,content_type='uploaded',lesson_id=None):
+    digest=hashlib.sha256(raw).hexdigest()
+    if db.one('SELECT id FROM documents WHERE course_id=? AND sha256=?',(course_id,digest)):
+        raise HTTPException(409,'This document is already in this course. Re-index the existing document instead.')
     pages=extract(filename,raw)
     parsed=chunks_from_pages(pages)
     if not parsed: raise HTTPException(422,'The document has no indexable text.')
@@ -102,6 +105,7 @@ def ingest(course_id,filename,raw,content_type='uploaded',lesson_id=None):
     try:
         with LOCK,db.connect() as c:
             c.execute('INSERT INTO documents(id,course_id,source_name,path,page_count,content_type,status,created_at) VALUES(?,?,?,?,?,?,?,?)',(ident,course_id,safe,str(path),len(pages),content_type,'Indexed',db.now()))
+            c.execute('UPDATE documents SET sha256=? WHERE id=?',(digest,ident))
             for p,v in zip(parsed,vectors):
                 c.execute('INSERT INTO chunks(id,course_id,module_id,lesson_id,document_id,source_name,page,chapter,section,subsection,content,content_type,created_at,embedding) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)',(db.uid(),course_id,lesson['module_id'] if lesson else None,lesson_id,ident,safe,p['page'],p['chapter'],p['section'],p['subsection'],p['content'],content_type,db.now(),v.tobytes()))
         rebuild(course_id)
@@ -139,6 +143,7 @@ def source(c):
 def retrieve(course_id,query,document_ids=None,completed_only=False,limit=8):
     document_ids=document_ids or [];validate_scope(course_id,document_ids)
     sql='SELECT * FROM chunks WHERE course_id=? AND embedding IS NOT NULL'; args=[course_id]
+    if not document_ids: sql+=" AND content_type!='research'"
     if document_ids: sql+=' AND document_id IN ('+','.join('?' for _ in document_ids)+')';args+=document_ids
     if completed_only:
         sql+=" AND (content_type='note' OR EXISTS (SELECT 1 FROM lessons l,json_each(l.sources) s WHERE l.course_id=? AND l.studied_at IS NOT NULL AND json_extract(s.value,'$.id')=chunks.id))"
@@ -147,7 +152,7 @@ def retrieve(course_id,query,document_ids=None,completed_only=False,limit=8):
     if not allowed:return []
     q=embed([query])
     with LOCK:
-        if not document_ids and not completed_only:
+        if not document_ids and not completed_only and not db.one("SELECT id FROM chunks WHERE course_id=? AND content_type='research' LIMIT 1",(course_id,)):
             target=config.DATA/'indexes'/course_id
             try:
                 meta=json.loads((target/'metadata.json').read_text())
@@ -169,6 +174,7 @@ def retrieve(course_id,query,document_ids=None,completed_only=False,limit=8):
 def outline_context(course_id,document_ids=None):
     document_ids=document_ids or [];validate_scope(course_id,document_ids)
     sql='SELECT * FROM chunks WHERE course_id=?';args=[course_id]
+    if not document_ids: sql+=" AND content_type!='research'"
     if document_ids:sql+=' AND document_id IN ('+','.join('?' for _ in document_ids)+')';args+=document_ids
     chunks=db.rows(sql+' ORDER BY document_id,page,created_at,id',args)
     # Sample across the full document, not just its opening pages; retain all discovered headings within a bounded budget.

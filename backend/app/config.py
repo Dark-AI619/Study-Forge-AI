@@ -21,6 +21,10 @@ PROVIDERS = {
 
 def prepare():
     if PRODUCTION:
+        if os.getenv('RAILWAY_ENVIRONMENT_ID'):
+            mount=os.getenv('RAILWAY_VOLUME_MOUNT_PATH')
+            if not mount or not DATA.is_relative_to(Path(mount).resolve()) or not os.path.ismount(mount):
+                raise RuntimeError('Railway production requires a mounted persistent volume containing STUDYFORGE_DATA_DIR.')
         from urllib.parse import urlsplit
         if not ORIGINS or any(urlsplit(x).scheme!='https' or not urlsplit(x).netloc or urlsplit(x).path or '*' in x for x in ORIGINS):
             raise RuntimeError('Set ALLOWED_ORIGINS to exact public HTTPS origins without trailing slashes in production.')

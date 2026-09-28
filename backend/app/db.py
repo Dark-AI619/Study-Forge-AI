@@ -72,4 +72,7 @@ def init():
         ''')
         if 'document_scope' not in {r[1] for r in c.execute('PRAGMA table_info(courses)')}:
             c.execute("ALTER TABLE courses ADD COLUMN document_scope TEXT NOT NULL DEFAULT '[]'")
-        c.execute('PRAGMA user_version=2')
+        if 'sha256' not in {r[1] for r in c.execute('PRAGMA table_info(documents)')}:
+            c.execute('ALTER TABLE documents ADD COLUMN sha256 TEXT')
+        c.execute('CREATE UNIQUE INDEX IF NOT EXISTS document_hash ON documents(course_id,sha256) WHERE sha256 IS NOT NULL')
+        c.execute('PRAGMA user_version=3')

@@ -1,3 +1,11 @@
+> Current deployment: Railway, https://study-forge-ai-production.up.railway.app/.
+> The active durable volume mounts at `/var/data`; set `STUDYFORGE_DATA_DIR=/var/data/studyforge`.
+> Railway production startup verifies that this is a real mounted volume. Keep `ENVIRONMENT=production`,
+> `ALLOWED_ORIGINS=https://study-forge-ai-production.up.railway.app` and the existing `ENCRYPTION_KEY`.
+> Do not rotate the encryption key without re-encrypting stored provider credentials.
+> Use one replica/worker with SQLite and local FAISS. See [v2 upgrade record](UPGRADE_V2.md).
+> The Render instructions below are historical alternatives, not the active host.
+
 # Production deployment
 
 ## Status and release gate
@@ -106,7 +114,7 @@ different path requires an explicit path migration; do not silently change it.
 A local backup database and copied files were checked for integrity. A cloud disaster
 recovery rehearsal remains pending until a host exists.
 
-## Production acceptance checklist — not yet executed
+## Production acceptance checklist â€” not yet executed
 
 Record the actual URL, commit, provider/model, dates, and outcomes:
 

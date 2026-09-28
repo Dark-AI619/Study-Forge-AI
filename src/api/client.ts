@@ -4,11 +4,11 @@ export async function api<T>(path:string,method='GET',body?:unknown):Promise<T>{
   let response:Response;
   try { response=await fetch(API+path,{method,credentials:'include',headers:body instanceof FormData?{}:{'Content-Type':'application/json'},body:body===undefined?undefined:body instanceof FormData?body:JSON.stringify(body)}); }
   catch { throw new Error('Cannot reach StudyForge. Check your connection and that the backend is running.'); }
-  if(!response.ok){const data=await response.json().catch(()=>({}));throw new ApiError(typeof data.detail==='string'?data.detail:Array.isArray(data.detail)?data.detail.map((x:{msg:string})=>x.msg).join('; '):'The request could not be completed.',response.status);}
+  if(!response.ok){if(response.status===401&&!path.startsWith('/auth/'))window.dispatchEvent(new Event('studyforge-session-expired'));const data=await response.json().catch(()=>({}));throw new ApiError(typeof data.detail==='string'?data.detail:Array.isArray(data.detail)?data.detail.map((x:{msg:string})=>x.msg).join('; '):'The request could not be completed.',response.status);}
   return response.json();
 }
 export interface Course {id:string;title:string;goal:string;level:string;style:string;weeks:number;daily_minutes:number;availability:number[];revision_day:number;lesson_count?:number;completed_count?:number;}
-export interface Source {course_title?:string;module_title?:string;lesson_title?:string;linked_lesson_id?:string;id:string;document_id:string;source_name:string;page:number|null;chapter?:string;section?:string;excerpt:string;content_type:string;course_id:string;}
+export interface Source {url?:string;origin?:string;license?:string;retrieved_at?:string;course_title?:string;module_title?:string;lesson_title?:string;linked_lesson_id?:string;id:string;document_id:string;source_name:string;page:number|null;chapter?:string;section?:string;excerpt:string;content_type:string;course_id:string;}
 export interface Lesson {id?:string;module_id?:string;course_id?:string;title:string;minutes:number;difficulty:number;completed?:number;confidence?:number;mastery?:number;studied_at?:string;content?:LessonContent;sources?:Source[];}
 export interface LessonContent {objectives:string[];prerequisites:string[];explanation:string;examples:string[];terminology:string[];exercise:string;common_mistakes:string[];summary:string;knowledge_check:string[];}
 export interface Module {id?:string;title:string;lessons:Lesson[];completion?:number;mastery?:number;}

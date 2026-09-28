@@ -10,15 +10,17 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse,JSONResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.concurrency import run_in_threadpool
-from . import config,db,security,learning,rag,ai,chat,documents
+from . import config,db,security,learning,rag,ai,chat,documents,assistant
 from .schemas import *
 
 log=logging.getLogger('studyforge')
 logging.basicConfig(level=logging.INFO)
+logging.getLogger('httpx').setLevel(logging.WARNING)
+logging.getLogger('httpcore').setLevel(logging.WARNING)
 
 @asynccontextmanager
 async def lifespan(app):
-    db.init();security.cipher()
+    db.init();assistant.init();security.cipher()
     yield
 
 app=FastAPI(title='StudyForge API',version='1.0.0',lifespan=lifespan,docs_url=None if config.PRODUCTION else '/api/docs')
@@ -49,7 +51,7 @@ async def protection(request,call_next):
 
 @app.exception_handler(Exception)
 async def failure(request,exc):
-    log.exception('Request failed: %s',request.url.path,exc_info=exc)
+    log.error('Request failed: %s (%s)',request.url.path,type(exc).__name__)
     return JSONResponse({'detail':'StudyForge could not complete this request. Your saved work is safe. Please retry.'},status_code=500)
 
 User=Depends(security.current_user)
@@ -57,7 +59,7 @@ User=Depends(security.current_user)
 @app.get('/api/health',response_model=HealthOutput)
 def health():
     db.one('SELECT 1 ok')
-    return {'status':'ok','database':'connected','research_available':False}
+    return {'status':'ok','database':'connected','research_available':True}
 
 @app.post('/api/auth/register',status_code=201,response_model=UserOutput)
 def register(data:Credentials,response:Response):
@@ -237,6 +239,8 @@ def file_download(fid:str,format:str='pdf',user=User):
     path=f['path'] if format=='pdf' else f['markdown_path']
     if not Path(path).is_file():raise HTTPException(404,'This generated file is missing. Generate it again.')
     return FileResponse(path,media_type='application/pdf' if format=='pdf' else 'text/markdown',filename=Path(path).name)
+
+app.include_router(assistant.router)
 
 dist=config.ROOT/'dist'
 if dist.exists():
