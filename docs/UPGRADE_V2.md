@@ -42,3 +42,6 @@ Settings now offers server-side provider model discovery, a provider-aware selec
 Login now exposes Forgot password with truthful unavailable guidance. No transactional-email service exists in this deployment; secure password-reset delivery remains an external dependency. No insecure email-only reset or fake email sending was added.
 
 After these fixes: full backend suite 49 passed, two dependency deprecation warnings; TypeScript and production build passed. Baseline upgrade commit c7c77e8 also passed all GitHub CI steps including the Linux Docker build. Final production acceptance continues after deployment.
+
+
+The live header/configuration check then found ENVIRONMENT=development with an existing encryption.key on the mounted volume, rather than an environment-held secret. Production is being corrected to ENVIRONMENT=production with ENCRYPTION_KEY_FILE=/var/data/studyforge/encryption.key, preserving the existing credential-encryption key without exposing or rotating it. Explicit secret-file support reads an existing file only and fails closed if it is missing; production never creates a replacement key. This supersedes the earlier assumption that the key was already in Railway variables.

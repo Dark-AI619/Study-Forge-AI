@@ -191,3 +191,19 @@ def test_gemini_discovery_is_owned_and_filters_nontext(client,monkeypatch):
     with TestClient(app) as other:
         other.post('/api/auth/register',json={'email':'discovery-other@example.test','password':'another-test-password'})
         assert other.get('/api/settings/models?provider=gemini').status_code==409
+
+
+def test_production_existing_secret_file_preserves_credentials(client,tmp_path,monkeypatch):
+    from app import config,security
+    from cryptography.fernet import Fernet
+    path=tmp_path/'deployment.key';key=Fernet.generate_key();path.write_bytes(key)
+    encrypted=Fernet(key).encrypt(b'existing-provider-key')
+    monkeypatch.setattr(config,'PRODUCTION',True)
+    monkeypatch.delenv('ENCRYPTION_KEY',raising=False)
+    monkeypatch.setenv('ENCRYPTION_KEY_FILE',str(path))
+    security.cipher.cache_clear()
+    assert security.cipher().decrypt(encrypted)==b'existing-provider-key'
+    security.cipher.cache_clear()
+    monkeypatch.setenv('ENCRYPTION_KEY_FILE',str(tmp_path/'missing.key'))
+    with pytest.raises(RuntimeError,match='key file is missing'):security.cipher()
+    assert not (tmp_path/'missing.key').exists()

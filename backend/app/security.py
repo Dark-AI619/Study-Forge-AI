@@ -16,8 +16,14 @@ def password_hash(password, salt=None):
 @lru_cache
 def cipher():
     key = os.getenv('ENCRYPTION_KEY')
+    key_file = os.getenv('ENCRYPTION_KEY_FILE')
+    if not key and key_file:
+        from pathlib import Path
+        path = Path(key_file)
+        if not path.is_file(): raise RuntimeError('The configured encryption key file is missing.')
+        key = path.read_bytes().strip()
     if not key:
-        if config.PRODUCTION: raise RuntimeError('ENCRYPTION_KEY is required in production')
+        if config.PRODUCTION: raise RuntimeError('ENCRYPTION_KEY or an existing ENCRYPTION_KEY_FILE is required in production')
         path = config.DATA / 'encryption.key'
         if not path.exists():
             path.write_bytes(Fernet.generate_key())
