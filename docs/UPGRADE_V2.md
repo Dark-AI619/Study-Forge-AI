@@ -31,3 +31,14 @@ Production now refuses to start on Railway if the real volume is missing or the 
 Background notifications, bulk account export/deletion and general search beyond Wikipedia are not implemented. Study hours guide AI planning but the existing timetable stores dates rather than clock times. Assistant learning plans create dated tasks; they do not overwrite the course timetable. CSS visual depth is used instead of heavy WebGL. A valid owner-supplied provider key is needed for final live synthesis, quiz and study-guide acceptance; fixtures do not establish live model quality.
 
 Earlier SPECIFICATION_AUDIT.md and VERIFICATION.md describe the baseline release; this record supersedes their statements that Research Mode and hosting are unavailable. See the final task report for deployed SHA and post-deployment acceptance evidence.
+
+
+## Final acceptance fixes (2026-09-29)
+
+The saved Gemini model was gemini-3.8-flash. Direct production diagnostics returned HTTP 200 once, followed by HTTP 503 with Google's message that the model was experiencing high demand. Model discovery with the same saved key succeeded. No credential values were printed or copied to another account. The existing OpenAI-compatible endpoint and Bearer authentication match Google's official documentation: https://ai.google.dev/gemini-api/docs/openai .
+
+Settings now offers server-side provider model discovery, a provider-aware selector and custom-ID fallback. Gemini discovery uses its native models endpoint and generateContent capability; obvious image/audio/embedding-only models are filtered. Discovery does not promise quota or model health: the saved connection must be tested. Authentication, model unavailable, malformed request, quota, timeout and upstream outage now have separate sanitized errors. Raw upstream error content is never returned to the client.
+
+Login now exposes Forgot password with truthful unavailable guidance. No transactional-email service exists in this deployment; secure password-reset delivery remains an external dependency. No insecure email-only reset or fake email sending was added.
+
+After these fixes: full backend suite 49 passed, two dependency deprecation warnings; TypeScript and production build passed. Baseline upgrade commit c7c77e8 also passed all GitHub CI steps including the Linux Docker build. Final production acceptance continues after deployment.

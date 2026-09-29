@@ -81,6 +81,10 @@ def put_settings(data:SettingsInput,user=User):
     result=security.save_settings(user['id'],data)
     for l in db.rows('SELECT l.id FROM lessons l JOIN courses c ON c.id=l.course_id WHERE c.user_id=?',(user['id'],)):learning.recalculate(l['id'])
     return result
+@app.get('/api/settings/models')
+def available_models(provider:Literal['groq','openai','gemini'],user=User):
+    return ai.available_models(user['id'],provider)
+
 @app.post('/api/settings/test-ai')
 def test_ai(user=User):
     ai.provider_for(user['id']).generate([{'role':'user','content':'Reply with the single word OK.'}]);return {'ok':True,'message':'Your AI provider is connected.'}

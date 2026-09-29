@@ -153,3 +153,41 @@ def test_assistant_rate_limit(client):
         assert r.status_code==200
     r=client.post(f'/api/assistant/sessions/{sid}/messages',json={'message':'One more','mode':'guide','request_id':str(uuid.uuid4())})
     assert r.status_code==429
+
+
+@pytest.mark.parametrize('status,body,expected',[
+ (400,{'error':{'status':'INVALID_ARGUMENT','details':[{'reason':'API_KEY_INVALID'}]}},'Authentication rejected'),
+ (404,{'error':{'status':'NOT_FOUND'}},'selected model is unavailable'),
+ (400,{'error':{'status':'INVALID_ARGUMENT','message':'secret-key must never leak'}},'request format'),
+ (429,{'error':{'status':'RESOURCE_EXHAUSTED'}},'quota or rate limit'),
+ (503,{'error':{'message':'secret-key'}},'unavailable (HTTP 503)')])
+def test_provider_error_classification(status,body,expected):
+    import httpx
+    from fastapi import HTTPException
+    with pytest.raises(HTTPException) as exc:ai.check_response(httpx.Response(status,json=body))
+    assert expected in exc.value.detail
+    assert 'secret-key' not in exc.value.detail
+
+def test_gemini_discovery_is_owned_and_filters_nontext(client,monkeypatch):
+    import httpx
+    saved=client.get('/api/settings').json()
+    saved.update(provider='gemini',model='test-text',api_key='test-only-key')
+    client.put('/api/settings',json=saved)
+    real=httpx.Client
+    def handler(request):
+        assert request.url.host=='generativelanguage.googleapis.com'
+        assert request.headers['x-goog-api-key']=='test-only-key'
+        assert 'key=' not in str(request.url)
+        return httpx.Response(200,json={'models':[
+         {'name':'models/test-text','displayName':'Text','supportedGenerationMethods':['generateContent']},
+         {'name':'models/test-embed','supportedGenerationMethods':['embedContent']},
+         {'name':'models/test-image','supportedGenerationMethods':['generateContent']}]})
+    monkeypatch.setattr(ai.httpx,'Client',lambda **kw:real(transport=httpx.MockTransport(handler)))
+    result=client.get('/api/settings/models?provider=gemini')
+    assert result.status_code==200
+    assert result.json()['models']==[{'id':'test-text','name':'Text'}]
+    assert 'test-only-key' not in result.text
+    assert client.get('/api/settings/models?provider=groq').status_code==409
+    with TestClient(app) as other:
+        other.post('/api/auth/register',json={'email':'discovery-other@example.test','password':'another-test-password'})
+        assert other.get('/api/settings/models?provider=gemini').status_code==409
